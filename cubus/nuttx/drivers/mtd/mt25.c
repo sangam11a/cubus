@@ -141,7 +141,7 @@
 
 /* Not yet supported */
 
-/* MT25VF016 capacity is 16Mbit  (2048Kbit x 8) =   2Mb (256Kb x 8) */
+/* MT25VF016 capacity is 1Gbit  (2048Kbit x 8) =   2Mb (256Kb x 8) */
 
 #define MT25_VF016_SECTOR_SHIFT  12         /* Sector size 1 << 1 = 65536 bits i.e 64Kb*/
 #define MT25_VF016_NSECTORS      32768        /*  sectors x 4096 bytes/sector = 2Mb */

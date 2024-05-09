@@ -146,13 +146,40 @@ int stm32_bringup(void)
       printf("ERROR: Failed to initialize SPI port 4\n\n");
       return -ENODEV;
     }
-
+  
   syslog(LOG_INFO, "Successfully initialized SPI port 4\n");
   printf("Successfully initialized SPI port 4\n");
-  /* Now bind the SPI interface to the SST25F064 SPI FLASH driver.  This
+  /* Now bind the SPI interface to the MT25 SPI FLASH driver.  This
    * is a FLASH device that has been added external to the board (i.e.
    * the board does not ship from STM with any on-board FLASH.
    */
+  #if defined(CONFIG_MTD) 
+  #if defined(CONFIG_M25P)  || defined(CONFIG_MT25Q)
+  syslog(LOG_INFO, "Bind SPI to the SPI flash driver\n");
+
+  mtd = m25p_initialize(spi);
+  if (!mtd)
+    {
+      syslog(LOG_ERR, "ERROR: Failed to bind SPI port 4 to the SPI mt25 FLASH"
+                      " driver\n");
+      printf("ERROR: Failed to bind SPI port 4 to the SPI FLASH mt25 driver\n");
+    }
+  else
+    {
+      syslog(LOG_INFO, "Successfully bound SPI port 4 to the SPI FLASH"
+                       " driver\n");
+      printf("Successfully bound SPI port 4 to the SPI FLASH\n");
+      /* Get the geometry of the FLASH device */
+
+      ret = mtd->ioctl(mtd, MTDIOC_GEOMETRY,
+                       (unsigned long)((uintptr_t)&geo));
+      if (ret < 0)
+        {
+          ferr("ERROR: mtd->ioctl failed: %d\n", ret);
+          return ret;
+        }
+  #endif
+#endif
 
 #if defined(CONFIG_MTD) && defined(CONFIG_MTD_MT25XX)
   syslog(LOG_INFO, "Bind SPI to the SPI flash driver\n");
@@ -386,6 +413,14 @@ int stm32_bringup(void)
 #endif
 
 #ifdef CONFIG_SENSORS_L3GD20
+  ret = board_l3gd20_initialize(0, 5);
+  if (ret != OK)
+    {
+      syslog(LOG_ERR, "ERROR: Failed to initialize l3gd20 sensor:"
+             " %d\n", ret);
+    }
+#endif
+#ifdef CONFIG_SENSORS_MPU60x0
   ret = board_l3gd20_initialize(0, 5);
   if (ret != OK)
     {

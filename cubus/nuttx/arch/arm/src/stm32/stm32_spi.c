@@ -2261,11 +2261,10 @@ struct spi_dev_s *stm32_spibus_initialize(int bus)
     }
   else
 #endif
-
 #ifdef CONFIG_STM32_SPI5
   if (bus == 5)
     {
-      /* Select SPI2 */
+      /* Select SPI5 */
 
       priv = &g_spi5dev;
 
@@ -2273,7 +2272,7 @@ struct spi_dev_s *stm32_spibus_initialize(int bus)
 
       if (!priv->initialized)
         {
-          /* Configure SPI2 pins: SCK, MISO, and MOSI */
+          /* Configure SPI5 pins: SCK, MISO, and MOSI */
 
           stm32_configgpio(GPIO_SPI5_SCK);
           stm32_configgpio(GPIO_SPI5_MISO);
@@ -2287,7 +2286,6 @@ struct spi_dev_s *stm32_spibus_initialize(int bus)
     }
   else
 #endif
-
 #ifdef CONFIG_STM32_SPI6
   if (bus == 6)
     {

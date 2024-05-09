@@ -669,7 +669,7 @@ config M25P_SPIFREQUENCY
 
 config M25P_MANUFACTURER
 	hex "M25P manufacturers ID"
-	default 0x20
+	default 0xBA
 	---help---
 		Various manufacturers may have produced the parts.
 		0x20 is the manufacturer ID for the STMicro MP25x serial FLASH.
@@ -678,9 +678,9 @@ config M25P_MANUFACTURER
 
 config M25P_MEMORY_TYPE
 	hex "M25P memory type ID"
-	default 0x20
+	default 0xBA
 	---help---
-		The memory type for M25 "P" series is 0x20, but the driver also
+		The memory type for MT25 "P" series is 0xBA, but the driver also
 		supports "F" series devices, such as the EON EN25F80 part which adds
 		a 4K sector erase capability.  The memory type for "F" series parts
 		from EON is 0x31.  The 4K sector erase size will automatically be
